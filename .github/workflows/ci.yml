@@ -37,3 +37,6 @@ jobs:
 
       - name: Build frontend Docker image
         run: docker build -t mini-task-manager-frontend .
+
+      - name: Build backend Docker image
+        run: docker build -t mini-task-manager-backend ./backend
