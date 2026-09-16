@@ -1,3 +1,5 @@
+require("dotenv").config({ path: "../.env" });
+
 const express = require("express");
 const cors = require("cors");
 const { Pool } = require("pg");
@@ -13,6 +15,12 @@ const pool = new Pool({
   user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB
+});
+
+app.get("/api/health", (req, res) => {
+  res.json({
+    status: "ok"
+  });
 });
 
 app.get("/api/tasks", async (req, res) => {
@@ -51,6 +59,10 @@ app.post("/api/tasks", async (req, res) => {
   }
 });
 
-app.listen(5000, "0.0.0.0", () => {
-  console.log("Server running on port 5000");
-});
+if (require.main === module) {
+  app.listen(5000, () => {
+    console.log("Server running on port 5000");
+  });
+}
+
+module.exports = app;
