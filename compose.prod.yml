@@ -1,0 +1,48 @@
+services:
+
+  backend:
+    image: ghcr.io/codepro233/mini-task-manager-backend:latest
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - frontend-network
+      - backend-network
+
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devuser -d taskdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend-network
+
+  frontend:
+    image: ghcr.io/codepro233/mini-task-manager-frontend:latest
+    ports:
+      - "3000:80"
+    networks:
+      - frontend-network
+
+volumes:
+  postgres_data_prod:
+
+networks:
+  frontend-network:
+  backend-network:
