@@ -13,9 +13,17 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-  
 
     steps:
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+  
+
+  
       - name: Checkout code
         uses: actions/checkout@v4
 
