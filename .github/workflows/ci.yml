@@ -48,5 +48,9 @@ jobs:
 
       - name: Build frontend Docker image
         run: docker build -t ghcr.io/codepro233/mini-task-manager-frontend:latest .
+      - name: Push frontend Docker image
+        run: docker push ghcr.io/codepro233/mini-task-manager-frontend:latest
       - name: Build backend Docker image
         run: docker build -t ghcr.io/codepro233/mini-task-manager-backend:latest ./backend
+      - name: Push backend Docker image
+        run: docker push ghcr.io/codepro233/mini-task-manager-backend:latest
