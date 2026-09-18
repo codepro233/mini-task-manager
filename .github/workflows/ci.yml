@@ -47,7 +47,6 @@ jobs:
         working-directory: backend
 
       - name: Build frontend Docker image
-        run: docker build -t mini-task-manager-frontend .
-
+        run: docker build -t ghcr.io/codepro233/mini-task-manager-frontend:latest .
       - name: Build backend Docker image
-        run: docker build -t mini-task-manager-backend ./backend
+        run: docker build -t ghcr.io/codepro233/mini-task-manager-backend:latest ./backend
