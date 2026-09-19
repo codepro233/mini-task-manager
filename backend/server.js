@@ -58,6 +58,38 @@ app.post("/api/tasks", async (req, res) => {
     });
   }
 });
+app.delete("/api/tasks/:id", async (req, res) => {
+  const id = Number(req.params.id);
+
+  try {
+    const result = await pool.query(
+      "DELETE FROM tasks WHERE id = $1 RETURNING *",
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        message: "Task not found"
+      });
+    }
+
+    res.json({
+      message: "Task deleted",
+      task: result.rows[0]
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Failed to delete task"
+    });
+  }
+});
+
+app.pull
+
+      
+
+
 
 if (require.main === module) {
   app.listen(5000, () => {
